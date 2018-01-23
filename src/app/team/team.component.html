@@ -1,0 +1,30 @@
+<form #f="ngForm" (ngSubmit)="submit(f.value)">
+  <div class="columns is-variable is-2">
+    <div class="column is-8 field">
+      <div class="control">
+        <div class="select is-fullwidth">
+          <select ngModel #newTeamMember name="newTeamMember">
+            <option>Select member</option>
+            <ng-container *ngFor="let user of userList | async">
+              <option *ngIf="!teamList.includes(user.key)" [value]="user.key" >
+                {{user.firstName}} {{user.lastName}}
+              </option>
+            </ng-container>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="column is-4 field">
+      <div class="control">
+        <button class="button is-primary">Add</button>
+      </div>
+    </div>
+  </div>
+</form>
+<br><br>
+<h1><strong>My Team:</strong></h1><br>
+<uL>
+  <li *ngFor="let user of teamList">
+    <app-team-user-card [user]="user"></app-team-user-card>
+  </li>
+</uL>

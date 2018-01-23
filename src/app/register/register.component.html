@@ -1,0 +1,108 @@
+<form #f="ngForm" (ngSubmit)="register(f.value)">
+  <div class="field">
+    <label class="label">Name</label>
+    <div class="control">
+      <input
+        ngModel
+        #firstName="ngModel"
+        name="firstName"
+        class="input"
+        type="text"
+        placeholder="Name"
+        required
+      >
+    </div>
+    <div *ngIf="firstName.touched && firstName.invalid" class="help is-danger">
+      <p *ngIf="firstName?.errors.required">Name is required.</p>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="label">Last Name</label>
+    <div class="control">
+      <input
+        ngModel
+        #lastName="ngModel"
+        name="lastName"
+        class="input"
+        type="text"
+        placeholder="Last Name"
+        required
+      >
+    </div>
+    <div *ngIf="lastName.touched && lastName.invalid" class="help is-danger">
+      <p *ngIf="lastName?.errors.required">Last Name is required.</p>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="label">Position</label>
+    <div class="control">
+      <input
+        ngModel
+        #position="ngModel"
+        name="position"
+        class="input"
+        type="text"
+        placeholder="Position"
+        required
+      >
+    </div>
+    <div *ngIf="position.touched && position.invalid" class="help is-danger">
+      <p *ngIf="position?.errors.required">Position is required.</p>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="label">Email</label>
+    <div class="control">
+      <input
+        ngModel
+        #email="ngModel"
+        name="email"
+        class="input"
+        type="text"
+        placeholder="Email input"
+        email
+      >
+    </div>
+    <div *ngIf="email.touched && email.invalid" class="help is-danger">
+      <p *ngIf="email?.errors.email">Email is not valid.</p>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="label">Password</label>
+    <div class="control">
+      <input
+        ngModel
+        #password="ngModel"
+        name="password"
+        class="input"
+        type="password"
+        placeholder="Password"
+        required
+        minlength="6"
+      >
+    </div>
+    <div *ngIf="password.touched && password.invalid" class="help is-danger">
+      <p *ngIf="password?.errors.required">Password is required.</p>
+      <p *ngIf="password?.errors.minlength">Password should be min 6 characters length.</p>
+    </div>
+  </div>
+
+  <div class="field is-grouped">
+    <div class="control">
+      <button
+        type="submit"
+        class="button is-link"
+        [disabled]="f.invalid"
+      >
+        Submit
+      </button>
+    </div>
+    <div class="control">
+      <button class="button is-text" routerLink="/">Login</button>
+    </div>
+  </div>
+</form>
