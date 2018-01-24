@@ -8,7 +8,7 @@ export class AuthGuardService implements CanActivate {
   constructor(private user: UserService, private router: Router) { }
 
   canActivate (route, state: RouterStateSnapshot) {
-    return this.user.user$.map(user => {
+    return this.user.userAuth$.map(user => {
       if (user) {
         this.user.fetch(user.uid)
         return true

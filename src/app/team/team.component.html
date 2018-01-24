@@ -5,8 +5,8 @@
         <div class="select is-fullwidth">
           <select ngModel #newTeamMember name="newTeamMember">
             <option>Select member</option>
-            <ng-container *ngFor="let user of userList | async">
-              <option *ngIf="!teamList.includes(user.key)" [value]="user.key" >
+            <ng-container *ngFor="let user of userList">
+              <option *ngIf="!teamMembersId.includes(user.key)" [value]="user.key" >
                 {{user.firstName}} {{user.lastName}}
               </option>
             </ng-container>
@@ -24,7 +24,7 @@
 <br><br>
 <h1><strong>My Team:</strong></h1><br>
 <uL>
-  <li *ngFor="let user of teamList">
-    <app-team-user-card [user]="user"></app-team-user-card>
+  <li *ngFor="let id of teamMembersId">
+    <app-team-user-card [user]="getUserWithId(id)"></app-team-user-card>
   </li>
 </uL>

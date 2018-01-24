@@ -7,15 +7,18 @@ import { User } from '../models/user';
 @Injectable()
 export class TeamService {
   teamList$: EventEmitter<any> = new EventEmitter<any>()
-  constructor(private db: AngularFireDatabase, private userService: UserService) { }
+  constructor(private db: AngularFireDatabase, private userService: UserService) {
+    this.getAll()
+  }
 
   add (newMemberId) {
-    this.userService.user$.subscribe(res => {
+    this.userService.userAuth$.subscribe(res => {
       this.db.object('/team/' + res.uid)
         .update({
           [newMemberId] : true
         })
     })
+    this.getAll()
   }
 
   getSingle (uid: string) {
@@ -24,7 +27,7 @@ export class TeamService {
   }
 
   getAll () {
-    this.userService.user$.subscribe(res => {
+    this.userService.userAuth$.subscribe(res => {
       this.db.object('/team/' + res.uid)
         .valueChanges()
         .subscribe((response) => {

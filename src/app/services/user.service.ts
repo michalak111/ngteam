@@ -8,11 +8,13 @@ import * as firebase from 'firebase/app';
 
 @Injectable()
 export class UserService {
-  user$: Observable<firebase.User>
-  user: EventEmitter<any> = new EventEmitter<any>()
+  userAuth$: Observable<firebase.User>
+  user$: EventEmitter<User> = new EventEmitter<User>()
+  userList$: EventEmitter<Array<User>> = new EventEmitter<Array<User>>()
 
   constructor(private afAuth: AngularFireAuth, private db: AngularFireDatabase, private router: Router) {
-    this.user$ = this.afAuth.authState
+    this.userAuth$ = this.afAuth.authState
+    this.getAll()
   }
 
   login (email, password) {
@@ -36,22 +38,23 @@ export class UserService {
   update (uid, { email, firstName, lastName, position }) {
     const userObject: User = { email, firstName, lastName, position }
     this.db.object('/users/' + uid).update(userObject)
-    this.user.emit(userObject)
+    this.user$.emit(userObject)
   }
 
   fetch (uid: string) {
     this.db.object('/users/' + uid)
       .valueChanges()
-      .subscribe(user => {
-        this.user.emit(user)
+      .subscribe((user: User) => {
+        this.user$.emit(user)
       })
   }
 
   getAll () {
-    return this.db.list('/users')
+    this.db.list('/users')
       .snapshotChanges()
       .map(actions => {
         return actions.map(action => ({ key: action.key, ...action.payload.val() }));
       })
+      .subscribe((userList: User[]) => this.userList$.emit(userList))
   }
 }

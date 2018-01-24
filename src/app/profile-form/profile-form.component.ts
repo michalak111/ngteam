@@ -13,7 +13,7 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
   user: User
   subscribe: Subscription
   constructor(private userService: UserService, private router: Router) {
-    this.subscribe = this.userService.user.subscribe(user => this.user = user)
+    this.subscribe = this.userService.user$.subscribe(user => this.user = user)
   }
 
   ngOnInit() {}
@@ -23,7 +23,7 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
   }
 
   submit ({firstName, lastName, position}) {
-    this.userService.user$.subscribe(res => {
+    this.userService.userAuth$.subscribe(res => {
       this.userService.update(res.uid, {email: res.email, firstName, lastName, position})
       this.router.navigateByUrl('/app/profile')
     })
