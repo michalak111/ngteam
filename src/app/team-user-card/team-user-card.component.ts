@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { User } from '../models/user';
 
 
@@ -9,8 +9,13 @@ import { User } from '../models/user';
 })
 export class TeamUserCardComponent implements OnInit {
   @Input('user') user: User
+  @Output() deleteTeamMember = new EventEmitter()
 
   constructor() {}
 
   ngOnInit() {}
+
+  deleteUser(): void {
+    this.deleteTeamMember.emit(this.user.key)
+  }
 }

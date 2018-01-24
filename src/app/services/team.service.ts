@@ -1,8 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { UserService } from './user.service';
-import { Observable } from 'rxjs/Observable';
-import { User } from '../models/user';
 
 @Injectable()
 export class TeamService {
@@ -17,8 +15,20 @@ export class TeamService {
         .update({
           [newMemberId] : true
         })
+        .then(() => {
+          this.getAll()
+        })
     })
-    this.getAll()
+  }
+
+  delete (memberId) {
+    this.userService.userAuth$.subscribe(res => {
+      this.db.object('/team/' + res.uid + '/' + memberId)
+        .remove()
+        .then(() => {
+          this.getAll()
+        })
+    })
   }
 
   getSingle (uid: string) {
@@ -33,6 +43,8 @@ export class TeamService {
         .subscribe((response) => {
           if (response) {
             this.teamList$.emit(Object.keys(response))
+          } else {
+            this.teamList$.emit([])
           }
         })
     })

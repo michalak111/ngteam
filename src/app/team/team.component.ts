@@ -33,4 +33,8 @@ export class TeamComponent implements OnInit, OnDestroy {
   getUserWithId(id): User {
     return this.userList.find((user: User) => user.key === id)
   }
+
+  deleteUser(userId) {
+    this.teamService.delete(userId)
+  }
 }
