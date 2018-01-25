@@ -12,18 +12,28 @@ import { User } from '../models/user';
 export class TeamComponent implements OnInit, OnDestroy {
   userList: User[] = []
   teamMembersId = []
-  subscribtions: Subscription[] = []
+  subscribtion: Subscription
+  loggedUserId: string
 
   constructor(private userService: UserService, private teamService: TeamService) {
-    this.subscribtions.push(this.userService.userList$.subscribe(list => this.userList = list))
-    this.subscribtions.push(this.teamService.teamList$.subscribe(list => this.teamMembersId = list))
+    this.subscribtion = this.userService.userAuth$
+      .switchMap((loggedUser) => {
+        this.loggedUserId = loggedUser.uid
+        return this.userService.userList$
+      })
+      .switchMap((userList: User[]) => {
+        this.userList = userList.filter((user) => user.key !== this.loggedUserId)
+        return this.teamService.teamList$
+      }).subscribe((list: string[]) => {
+        this.teamMembersId = list
+      })
   }
 
   ngOnInit() {
   }
 
   ngOnDestroy() {
-    this.subscribtions.map((s: Subscription) => s.unsubscribe())
+    this.subscribtion.unsubscribe()
   }
 
   submit (f) {
@@ -34,7 +44,7 @@ export class TeamComponent implements OnInit, OnDestroy {
     return this.userList.find((user: User) => user.key === id)
   }
 
-  deleteUser(userId) {
+  deleteUser(userId: string): void {
     this.teamService.delete(userId)
   }
 }

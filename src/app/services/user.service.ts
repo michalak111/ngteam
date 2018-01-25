@@ -5,12 +5,13 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { User } from '../models/user';
 import { Observable } from 'rxjs/Observable';
 import * as firebase from 'firebase/app';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class UserService {
   userAuth$: Observable<firebase.User>
   user$: EventEmitter<User> = new EventEmitter<User>()
-  userList$: EventEmitter<Array<User>> = new EventEmitter<Array<User>>()
+  userList$: BehaviorSubject<User[]> = new BehaviorSubject([])
 
   constructor(private afAuth: AngularFireAuth, private db: AngularFireDatabase, private router: Router) {
     this.userAuth$ = this.afAuth.authState
@@ -55,6 +56,6 @@ export class UserService {
       .map(actions => {
         return actions.map(action => ({ key: action.key, ...action.payload.val() }));
       })
-      .subscribe((userList: User[]) => this.userList$.emit(userList))
+      .subscribe((userList: User[]) => this.userList$.next(userList))
   }
 }

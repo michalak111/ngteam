@@ -1,15 +1,16 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { UserService } from './user.service';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class TeamService {
-  teamList$: EventEmitter<any> = new EventEmitter<any>()
+  teamList$: BehaviorSubject<string[]> = new BehaviorSubject([])
   constructor(private db: AngularFireDatabase, private userService: UserService) {
     this.getAll()
   }
 
-  add (newMemberId) {
+  add (newMemberId: string): void {
     this.userService.userAuth$.subscribe(res => {
       this.db.object('/team/' + res.uid)
         .update({
@@ -21,7 +22,7 @@ export class TeamService {
     })
   }
 
-  delete (memberId) {
+  delete (memberId: string): void {
     this.userService.userAuth$.subscribe(res => {
       this.db.object('/team/' + res.uid + '/' + memberId)
         .remove()
@@ -40,11 +41,11 @@ export class TeamService {
     this.userService.userAuth$.subscribe(res => {
       this.db.object('/team/' + res.uid)
         .valueChanges()
-        .subscribe((response) => {
+        .subscribe((response: string[]) => {
           if (response) {
-            this.teamList$.emit(Object.keys(response))
+            this.teamList$.next(Object.keys(response))
           } else {
-            this.teamList$.emit([])
+            this.teamList$.next([])
           }
         })
     })
