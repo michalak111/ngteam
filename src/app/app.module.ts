@@ -23,7 +23,7 @@ import { AuthRedirectComponent } from './auth-redirect/AuthRedirectComponent';
 
 
 const appRoutes: Routes = [
-  { path: '', component: LoginComponent, canActivate: [AuthGuardService] },
+  { path: '', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'app', component: ApplicationComponent, canActivate: [AuthGuardService] },
   { path: 'app/profile', component: ProfileComponent, canActivate: [AuthGuardService] },
