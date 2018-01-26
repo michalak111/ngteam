@@ -3,6 +3,7 @@ import { UserService } from '../services/user.service';
 import { TeamService } from '../services/team.service';
 import { Subscription } from 'rxjs/Subscription';
 import { User } from '../models/user';
+import { combineLatest } from 'rxjs/observable/combineLatest';
 
 @Component({
   selector: 'app-team',
@@ -11,21 +12,18 @@ import { User } from '../models/user';
 })
 export class TeamComponent implements OnInit, OnDestroy {
   userList: User[] = []
-  teamMembersId = []
+  teamMembersId: string[] = []
   subscribtion: Subscription
-  loggedUserId: string
 
   constructor(private userService: UserService, private teamService: TeamService) {
-    this.subscribtion = this.userService.userAuth$
-      .switchMap((loggedUser) => {
-        this.loggedUserId = loggedUser.uid
-        return this.userService.userList$
-      })
-      .switchMap((userList: User[]) => {
-        this.userList = userList.filter((user) => user.key !== this.loggedUserId)
-        return this.teamService.teamList$
-      }).subscribe((list: string[]) => {
-        this.teamMembersId = list
+    this.subscribtion = combineLatest(
+      this.userService.userAuth$,
+      this.userService.userList$,
+      this.teamService.teamList$
+    )
+      .subscribe(([userAuth, userList, teamList]) => {
+        this.userList = userList.filter((user: User) => user.key !== userAuth.uid)
+        this.teamMembersId = teamList
       })
   }
 
