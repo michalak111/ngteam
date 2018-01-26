@@ -1,4 +1,55 @@
-<p>
-  login works!
-</p>
-<a routerLink="/register">Register</a>
+<form ngForm #f="ngForm" (ngSubmit)="login(f)">
+  <div class="field">
+    <label class="label">Email</label>
+    <div class="control">
+      <input
+        ngModel
+        #email="ngModel"
+        name="email"
+        class="input"
+        type="email"
+        placeholder="example@email.com"
+        required
+        email
+      >
+    </div>
+    <div *ngIf="email.touched && email.invalid" class="help is-danger">
+      <p *ngIf="email?.errors.email">Email is not valid.</p>
+    </div>
+  </div>
+  <div class="field">
+    <label class="label">Password</label>
+    <div class="control">
+      <input
+        ngModel
+        #password="ngModel"
+        name="password"
+        class="input"
+        type="password"
+        placeholder="Password"
+        required
+        minlength="6"
+      >
+    </div>
+    <div *ngIf="password.touched && password.invalid" class="help is-danger">
+      <p *ngIf="password?.errors.required">Password is required.</p>
+      <p *ngIf="password?.errors.minlength">Password should be min 6 characters length.</p>
+    </div>
+  </div>
+  <div class="field is-grouped">
+    <div class="control">
+      <button
+        type="submit"
+        class="button is-link"
+        [disabled]="f.invalid"
+      >
+        Submit
+      </button>
+    </div>
+    <div class="control">
+      <button class="button is-text" routerLink="/register">Register</button>
+    </div>
+  </div>
+  <p *ngIf="f.submitted && f.invalid" class="help is-danger">{{ f?.errors.message }}</p>
+</form>
+<br/>
