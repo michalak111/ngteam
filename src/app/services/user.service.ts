@@ -58,4 +58,11 @@ export class UserService {
       })
       .subscribe((userList: User[]) => this.userList$.next(userList))
   }
+
+  status (status) {
+    this.userAuth$
+      .map((user) => {
+        return this.db.object('/users/' + user.uid ).update({status: status})
+      }).toPromise()
+  }
 }

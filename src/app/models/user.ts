@@ -4,5 +4,7 @@ export interface User {
   lastName: string,
   email: string,
   position: string,
-  status?: string,
+  status?: {
+    text: string
+  },
 }

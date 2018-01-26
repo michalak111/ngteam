@@ -3,6 +3,7 @@
       <div class="media-content">
         <p class="title is-4">{{user.firstName}} {{user.lastName}}</p>
         <p class="subtitle is-6">{{user.email}}</p>
+        <p class="subtitle is-6"><strong>Status:</strong> {{user.status.text}}</p>
       </div>
     <a class="delete is-medium" (click)="deleteUser()"></a>
   </div>

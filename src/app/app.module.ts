@@ -20,6 +20,7 @@ import { TeamComponent } from './team/team.component';
 import { TeamService } from './services/team.service';
 import { TeamUserCardComponent } from './team-user-card/team-user-card.component';
 import { AuthRedirectComponent } from './auth-redirect/AuthRedirectComponent';
+import { ChangeStatusComponent } from './change-status/change-status.component';
 
 
 const appRoutes: Routes = [
@@ -29,6 +30,7 @@ const appRoutes: Routes = [
   { path: 'app/profile', component: ProfileComponent, canActivate: [AuthGuardService] },
   { path: 'app/profile/edit', component: ProfileFormComponent, canActivate: [AuthGuardService] },
   { path: 'app/team', component: TeamComponent, canActivate: [AuthGuardService] },
+  { path: 'app/change-status', component: ChangeStatusComponent, canActivate: [AuthGuardService] },
   { path: '**', component: LoginComponent }
 ];
 
@@ -42,7 +44,8 @@ const appRoutes: Routes = [
     ProfileComponent,
     TeamComponent,
     TeamUserCardComponent,
-    AuthRedirectComponent
+    AuthRedirectComponent,
+    ChangeStatusComponent
   ],
   imports: [
     BrowserModule,
