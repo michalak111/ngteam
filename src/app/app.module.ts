@@ -19,10 +19,11 @@ import { ProfileComponent } from './profile/profile.component';
 import { TeamComponent } from './team/team.component';
 import { TeamService } from './services/team.service';
 import { TeamUserCardComponent } from './team-user-card/team-user-card.component';
+import { AuthRedirectComponent } from './auth-redirect/AuthRedirectComponent';
 
 
 const appRoutes: Routes = [
-  { path: '', component: LoginComponent },
+  { path: '', component: LoginComponent, canActivate: [AuthGuardService] },
   { path: 'register', component: RegisterComponent },
   { path: 'app', component: ApplicationComponent, canActivate: [AuthGuardService] },
   { path: 'app/profile', component: ProfileComponent, canActivate: [AuthGuardService] },
@@ -40,7 +41,8 @@ const appRoutes: Routes = [
     ApplicationComponent,
     ProfileComponent,
     TeamComponent,
-    TeamUserCardComponent
+    TeamUserCardComponent,
+    AuthRedirectComponent
   ],
   imports: [
     BrowserModule,
