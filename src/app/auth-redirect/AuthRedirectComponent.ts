@@ -9,7 +9,7 @@ import { Component, OnDestroy } from '@angular/core';
 export class AuthRedirectComponent implements OnDestroy {
   subscription: Subscription
   constructor (userService: UserService, router: Router) {
-    this.subscription = userService.user$.subscribe((user) => {
+    this.subscription = userService.userAuth$.subscribe((user) => {
       if (user) {
         router.navigateByUrl('/app')
       }
