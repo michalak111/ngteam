@@ -27,13 +27,8 @@ export class UserService {
   }
 
   register ({ email, password, firstName, lastName, position }) {
-    this.afAuth.auth
+    return this.afAuth.auth
       .createUserWithEmailAndPassword(email, password)
-      .then((res) => {
-        const userObject: User = { email, firstName, lastName, position }
-        this.update(res.uid, userObject)
-        this.router.navigateByUrl('/app')
-      })
   }
 
   update (uid, { email, firstName, lastName, position }) {

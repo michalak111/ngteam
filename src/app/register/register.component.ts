@@ -1,20 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
-import { AuthRedirectComponent } from '../auth-redirect/AuthRedirectComponent';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent extends AuthRedirectComponent {
+export class RegisterComponent implements OnInit {
 
-  constructor(private userService: UserService, private router: Router) {
-    super(userService, router)
+  constructor(private userService: UserService) {
+    console.log("REGISTER")
   }
 
   register (user) {
     this.userService.register(user)
+  }
+
+  ngOnInit(): void {
   }
 }

@@ -1,18 +1,15 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { UserService } from '../services/user.service';
 import { FormGroupDirective } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthRedirectComponent } from '../auth-redirect/AuthRedirectComponent';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent extends AuthRedirectComponent {
-  constructor(private userService: UserService, private router: Router) {
-    super(userService, router)
-  }
+export class LoginComponent implements OnInit {
+  constructor(private userService: UserService, private router: Router) {}
 
   login (f: FormGroupDirective) {
     const {email, password} = f.value
@@ -23,5 +20,8 @@ export class LoginComponent extends AuthRedirectComponent {
       .catch((err) => {
         f.form.setErrors({message: err.message})
       })
+  }
+
+  ngOnInit(): void {
   }
 }

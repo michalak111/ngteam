@@ -19,13 +19,13 @@ import { ProfileComponent } from './profile/profile.component';
 import { TeamComponent } from './team/team.component';
 import { TeamService } from './services/team.service';
 import { TeamUserCardComponent } from './team-user-card/team-user-card.component';
-import { AuthRedirectComponent } from './auth-redirect/AuthRedirectComponent';
 import { ChangeStatusComponent } from './change-status/change-status.component';
+import { LoggedinGuardService } from './services/loggedin-guard.service';
 
 
 const appRoutes: Routes = [
-  { path: '', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: '', component: LoginComponent, canActivate: [LoggedinGuardService] },
+  { path: 'register', component: RegisterComponent, canActivate: [LoggedinGuardService] },
   { path: 'app', component: ApplicationComponent, canActivate: [AuthGuardService] },
   { path: 'app/profile', component: ProfileComponent, canActivate: [AuthGuardService] },
   { path: 'app/profile/edit', component: ProfileFormComponent, canActivate: [AuthGuardService] },
@@ -44,7 +44,6 @@ const appRoutes: Routes = [
     ProfileComponent,
     TeamComponent,
     TeamUserCardComponent,
-    AuthRedirectComponent,
     ChangeStatusComponent
   ],
   imports: [
@@ -56,9 +55,13 @@ const appRoutes: Routes = [
     FormsModule
   ],
   providers: [
+    // Services
     UserService,
+    TeamService,
+
+    // Guards
     AuthGuardService,
-    TeamService
+    LoggedinGuardService
   ],
   bootstrap: [AppComponent]
 })
