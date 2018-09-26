@@ -8,9 +8,7 @@ import { UserService } from '../services/user.service';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private userService: UserService) {
-    console.log("REGISTER")
-  }
+  constructor(private userService: UserService) {}
 
   register (user) {
     this.userService.register(user)
